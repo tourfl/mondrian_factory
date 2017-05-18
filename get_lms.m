@@ -6,14 +6,14 @@ function [ lms ] = get_lms( illuminant, color_label)
 %	book of color. Cones' answers and Munsell color table must be loaded!
 
 	% Load data
-	load('data/munsell380_800_1.mat')
-	cones_answer = csvread('data/linss2_10e_1.csv');
+	load data/munsell380_800_1.mat;
+	load data/good_cones_answers.mat;
 
-	index = find(all(ismember(S, color_label), 2))
+	index = find(all(ismember(S, color_label), 2));
 
-	lms(1,1,1)=sum(illuminant'.*munsell(11:341, index).*cones_answer(1:331, 2));
-	lms(1,1,2)=sum(illuminant'.*munsell(11:341, index).*cones_answer(1:331, 3));
-	lms(1,1,3)=sum(illuminant'.*munsell(11:341, index).*cones_answer(1:331, 4))
+	lms(1,1,1)=sum(illuminant'.*munsell(11:341, index).*cones_answers(1:331, 2));
+	lms(1,1,2)=sum(illuminant'.*munsell(11:341, index).*cones_answers(1:331, 3));
+	lms(1,1,3)=sum(illuminant'.*munsell(11:341, index).*cones_answers(1:331, 4));
 
 end
 
