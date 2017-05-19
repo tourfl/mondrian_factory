@@ -2,7 +2,7 @@
 
 load data/good_cones_answers.mat;
 
-figure(31), plot(cones_answers(:,1), cones_answers(:,2), 'red')  % long
+figure(31), hold off, plot(cones_answers(:,1), cones_answers(:,2), 'red')  % long
 hold on, plot(cones_answers(:,1), cones_answers(:,3), 'green')  % mid
 hold on, plot(cones_answers(:,1), cones_answers(:,4), 'blue')  % short
 
@@ -10,11 +10,9 @@ hold on, plot(cones_answers(:,1), cones_answers(:,4), 'blue')  % short
 
 load data/munsell380_800_1.mat;
 
-index = find(all(ismember(S, {'5Y 8.5/10'}), 2));  % accolade to have the exact value!
-indeb = find(all(ismember(S, {'2.5B 8/4'}), 2));
+index = find(ismember(S, {'2.5PB 7/8'}));  % cells to compare whole strings!
 
-hold on, plot(380:800, munsell(1:end, index), 'black')
-hold on, plot(380:800, munsell(1:end, indeb), '--m')
+hold on, plot(380:800, munsell(1:end, index), '+c')
 
 % how are the illuminants?
 
@@ -26,11 +24,14 @@ illuminantL=illuL*normpdf([380:800],630,4.5);
 illuminantM=illuM*normpdf([380:800],530,4.5);
 illuminantS=illuS*normpdf([380:800],450,4.5);
 
-hold on, plot(380:800, illuminantS, '--blue')
-hold on, plot(380:800, illuminantM, '--green')
-hold on, plot(380:800, illuminantL, '--r')
+hold on, aS = area(380:800, illuminantS)
+aS.FaceColor = 'blue';
+hold on, aM = area(380:800, illuminantM)
+aM.FaceColor = 'green';
+hold on, aL = area(380:800, illuminantL)
+aL.FaceColor = 'red';
 
 % Presentation
 
-xlabel('wavelength (nm)'), ylabel('energy (?)')
-legend('long range wavelength cones answer', 'mid range', 'short range', 'reflectance of 5Y 8.5/10', 'reflectance of 2.5B 8/4', 'blue illuminant', 'green', 'red')
+xlabel('wavelength (nm)'), ylabel('energy (arbitrary)')
+legend('long range wavelength cones answer', 'mid range', 'short range', 'reflectance of color 2.5PB 7/8, kind of blue', 'blue illuminant', 'green', 'red')
