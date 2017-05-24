@@ -10,6 +10,12 @@ illuS = 1.31;
 
 illuminant=illuS*normpdf([1:331],60,4.5)+illuM*normpdf([1:331],140,4.5)+illuL*normpdf([1:331],240,4.5);
 
+% lightness per light alone
+
+lL = sum(illuL*normpdf([1:331],240,4.5))
+lM = sum(illuM*normpdf([1:331],140,4.5))
+lS = sum(illuS*normpdf([1:331],60,4.5))
+
 % lightness per cones
 
 L=sum(illuminant'.*cones_answers(1:331, 2))

@@ -16,13 +16,11 @@ hold on, plot(380:800, munsell(1:end, index), '+c')
 
 % how are the illuminants?
 
-illuL = 2;
-illuM = 1.8;
-illuS = 3;
+illum = [1.31, 1.9, 1.68];
 
-illuminantL=illuL*normpdf([380:800],630,4.5);
-illuminantM=illuM*normpdf([380:800],530,4.5);
-illuminantS=illuS*normpdf([380:800],450,4.5);
+illuminantL=illum(1)*normpdf([380:800], 630, 4.5);
+illuminantM=illum(2)*normpdf([380:800], 530, 4.5);
+illuminantS=illum(3)*normpdf([380:800], 450, 4.5);
 
 hold on, aS = area(380:800, illuminantS)
 aS.FaceColor = 'blue';
@@ -33,5 +31,5 @@ aL.FaceColor = 'red';
 
 % Presentation
 
-xlabel('wavelength (nm)'), ylabel('energy (arbitrary)')
-legend('long range wavelength cones answer', 'mid range', 'short range', 'reflectance of color 2.5PB 7/8, kind of blue', 'blue illuminant', 'green', 'red')
+xlabel('wavelength (nm)'), ylabel('energy (legend)')
+arbitrary('long range wavelength cones answer', 'mid range', 'short range', 'reflectance of color 2.5PB 7/8, kind of blue', 'blue illuminant', 'green', 'red')

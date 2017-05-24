@@ -13,7 +13,7 @@ function [ lms ] = get_lms( illuminant, color_label)
 	indec = find(contains(S, color_label));  % find indexes of string containing label
 	indef = find(S(indec,1)==color_label(1));  % find indexes of selected strings with same first letter
 
-	index = indec(indef)  % remove intersection values
+	index = indec(indef);  % remove intersection values
 
 	ref_spectrum = munsell(11:341, index(1,1));  % always take the 1,1 value (10PB 6/1, 10PB 6/10)
 
