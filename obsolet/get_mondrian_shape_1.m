@@ -1,5 +1,5 @@
 function [ I, Irgb ] = get_mondrian_shape_1( illum, color_labels )
-%GET_MONDRIAN_SHAPE_1 Construct a Mondrian with a constant shape
+%GET_MONDRIAN_SHAPE_1 Construct a Mondrian with a constant shape (obsolet)
 %   [I, IRGB] = GET_MONDRIAN_SHAPE_1(ILLUM, COLOR_LABELS) Construct a given
 %	shape under the illuminant ILLUM, which is the sum of 3 narrow gaussian
 %	curves at 450, 530 and 630 nm. You need to provide the references of colors

@@ -32,4 +32,4 @@ aL.FaceColor = 'red';
 % Presentation
 
 xlabel('wavelength (nm)'), ylabel('energy (legend)')
-arbitrary('long range wavelength cones answer', 'mid range', 'short range', 'reflectance of color 2.5PB 7/8, kind of blue', 'blue illuminant', 'green', 'red')
+legend('long range wavelength cones answer', 'mid range', 'short range', 'reflectance of color 2.5PB 7/8, kind of blue', 'blue illuminant', 'green', 'red')
