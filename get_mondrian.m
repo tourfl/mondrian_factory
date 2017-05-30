@@ -9,6 +9,9 @@ function [ I, Irgb ] = get_mondrian( illum, shape, color_labels )
 %	I is the LMS answer of the Mondrian
 %	SHAPE is a cell array of matrices 2 by 2
 
+% Cones answer as sensor
+load data/good_cones_answers.mat;
+
 
 % Illuminant is the sum of 3 narrow gaussian curves at 450, 530 qand 630nm
 illuminant=illum(3)*normpdf([1:331],60,4.5)+illum(2)*normpdf([1:331],140,4.5)+illum(1)*normpdf([1:331],240,4.5);
@@ -21,12 +24,12 @@ P = zeros(24, 24, 3);
 
 for i=2:size(shape(:))
 	s=shape{i};
-	P(s(1):s(3), s(2):s(4), :)= repmat(get_lms(illuminant, color_labels{i}), [s(3)-s(1)+1 s(4)-s(2)+1]);
+	P(s(1):s(3), s(2):s(4), :)= repmat(get_lms(illuminant, color_labels{i}, cones_answers), [s(3)-s(1)+1 s(4)-s(2)+1]);
 end
 
 % From pattern to true image
 I = zeros(300, 300, 3);
-I = I+get_lms(illuminant, color_labels{1});  % A
+I = I+get_lms(illuminant, color_labels{1}, cones_answers);  % A
 I(31:270, 31:270, :) = imresize(P, 10, 'nearest');
 
 % conversion from LMS to RGB

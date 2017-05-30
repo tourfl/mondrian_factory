@@ -8,11 +8,14 @@ hold on, plot(cones_answers(:,1), cones_answers(:,4), 'blue')  % short
 
 % how is the reflectance of the C color, i.e. 5Y 8.5/10?
 
-load data/munsell380_800_1.mat;
+load data/munsell380_800_final.mat;
 
-index = find(ismember(S, {'2.5PB 7/8'}));  % cells to compare whole strings!
+color_label = 'N 7/';
 
-hold on, plot(380:800, munsell(1:end, index), '+c')
+indec = find(contains(S, color_label));  % find indexes of string containing label
+index = find(S(indec,1)==color_label(1));  % find indexes of selected strings with same first letter
+
+hold on, plot(380:800, munsell(1:end, index), '+k')
 
 % how are the illuminants?
 
@@ -32,4 +35,4 @@ aL.FaceColor = 'red';
 % Presentation
 
 xlabel('wavelength (nm)'), ylabel('energy (legend)')
-legend('long range wavelength cones answer', 'mid range', 'short range', 'reflectance of color 2.5PB 7/8, kind of blue', 'blue illuminant', 'green', 'red')
+legend('long range wavelength cones answer', 'mid range', 'short range', 'reflectance of color N 7/, gray', 'blue illuminant', 'green', 'red')
