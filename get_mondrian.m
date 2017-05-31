@@ -28,9 +28,9 @@ for i=2:size(shape(:))
 end
 
 % From pattern to true image
-I = zeros(300, 300, 3);
+I = zeros(400, 400, 3);
 I = I+get_lms(illuminant, color_labels{1}, cones_answers);  % A
-I(31:270, 31:270, :) = imresize(P, 10, 'nearest');
+I(81:320, 81:320, :) = imresize(P, 10, 'nearest');
 
 % conversion from LMS to RGB
 Irgb = colorspace('CAT02 LMS->RGB', I);

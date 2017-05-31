@@ -60,8 +60,8 @@ mx = max(Iyellow(:)); Iyellow = Iyellow./mx;
 
 if figs_on
 	figure(1), imshow(Irgb), title('RGB vision of the Mondrian')
-	figure(31), subplot(121), imshow(I), title('grey exp'), hold on, plot(201, 123, '*k'), subplot(122), imshow(Igreyprc), title('perceived')
-	figure(32), subplot(121), imshow(Ired), title('red exp'), hold on, plot(52, 153, '*k'), subplot(122), imshow(Iredperc), title('perceived')
+	figure(31), subplot(121), imshow(I), title('grey exp'), hold on, plot(242, 167, '*k'), subplot(122), imshow(Igreyprc), title('perceived')
+	figure(32), subplot(121), imshow(Ired), title('red exp'), hold on, plot(99, 182, '*k'), subplot(122), imshow(Iredperc), title('perceived')
 	% figure(33), subplot(121), imshow(Iblue), title('blue exp'), hold on, plot(81, 142, '*k'), subplot(122), imshow(Iblueprc), title('perceived')
 	% figure(34), subplot(121), imshow(Igreen), title('green exp'), hold on, plot(82, 246, '*k'), subplot(122), imshow(Igreenpc), title('perceived')
 	% figure(35), subplot(121), imshow(Iyellow), title('yellow exp'), hold on, plot(190, 179, '*k'), subplot(122), imshow(Iyellop), title('perceived')
@@ -70,7 +70,7 @@ end
 %% Saving
 
 if save_on
-	imwrite(I, strcat(image_dir, 'mondrian_base.png'))
+	imwrite(I, strcat(image_dir, 'grey_exp.png'))
 	imwrite(Igreyprc, strcat(image_dir, 'grey_perceived.png'))
 	imwrite(Ired, strcat(image_dir, 'red_experiment.png'))
 	imwrite(Iredperc, strcat(image_dir, 'red_perceived.png'))
