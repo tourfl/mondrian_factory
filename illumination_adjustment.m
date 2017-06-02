@@ -5,13 +5,17 @@
 gray_lab = 'N 7/';
 red_lab  = '10RP 6/10';
 blue_lab = '2.5PB 6/8';
-green_lab= '2.5G  7/6';
+green_lab= '2.5G 7/6';
 yello_lab= '5Y 8.5/10';
-color_lab = red_lab;
 
-magnituds = [9.46 23.74 7.56]  % magnitudes of L, M and S illuminants
+color_lab = green_lab;
 
-xyz = [4.1687    2.8562    1.1956]
+magnituds = [3.2, 1.579, 2.107]  % magnitudes of L, M and S illuminants
+
+
+%% Adjusting the Tristimulus values
+
+xyz = [0.6090    0.6957    0.4746]
 
 ref = get_independant_reflectances(color_lab, magnituds)
 

@@ -1,6 +1,12 @@
 % author: Raph
 % date: 29 May 2017
 
+
+%% Loading data
+
+load data/mondrian_shape_and_colors.mat;
+load data/illumination_matching_Land_Exp.mat;
+
 %% Parameters
 
 figs_on = 1;  % show or not figures
@@ -8,70 +14,42 @@ save_on = 1;  % save or not images
 
 image_dir = '../images/';
 
-%% Loading data
+experiments = {'gray', 'red', 'blue', 'green', 'yellow'};
+figure_indx = containers.Map(experiments, 1:5);
 
-load data/mondrian_shape_and_colors.mat;
+gamma_corr  = 1.0/2.2;  % to achieve Gamma correction - i.e. better quantization in the darker areas because the VHS is more sensitive to change in thoses values
 
-%% Computing
+% Illuminations - THE point, computed in illumination_adjustment.m
 
-illum_white = [1.68, 1.9, 1.31];
+% so that gray appears gray in RGB
+illum_white =[1.68, 1.9, 1.31];
+illum_red =  [1 1 1];
+illum_blue = [1 1 1];
+illum_green = 0.948*[3.2, 1.579, 2.107];
+illum_yello = [1 1 1];
 
-[Iwhite, Irgb] = get_mondrian(illum_white, shape_Land, clab_white_illum);
+illums = containers.Map(experiments, {illum_white, illum_red, illum_blue, illum_green, illum_yello});  % explicit coding
 
-% Change illumination
-% Recreate Perceived Mondrian
 
-% Gray Exp
-illum_gray 	= 0.2 * [16 8.74 4.415];  % values computed in illumination_exp.m
+%% Experiments - change illumination & recreate perceived Mondrian
 
-[I, ~] = get_mondrian(illum_gray, shape_Land, clab_white_illum);
+for experiment = experiments
 
-[Igreyprc, ~] = get_mondrian(illum_white, shape_Land, clab_greyxp);
+	[I, ~] = get_mondrian(illums(experiment{1}), shape_Land, base_color_labels);
+	[Ipc, ~] = get_mondrian(illums('gray'), shape_Land, color_labels(experiment{1}));
 
-% Get gray lms values
+	max(I(:))
 
-graylms = I(123, 201, :);
+	if figs_on
+		figure(30+figure_indx(experiment{1})), subplot(121), imshow(I), title([experiment{1}, ' exp - no gamma correction'])
+		coordinates = ref_color_coordinates(experiment{1});
+		hold on, plot(coordinates(1), coordinates(2), '*k')
+		subplot(122), imshow(Ipc), title('perceived')
+	end
 
-% Red Experiment
-illum_red = 0.1 * [9.46 23.74 7.56];
+	if save_on
+		imwrite(I.^gamma_corr, [image_dir, experiment{1}, '_exp.png'])  % gamma corrected as input of the vce algo
+		imwrite(Ipc, [image_dir, experiment{1}, '_perceived.png'])
+	end
 
-[Ired, ~] = get_mondrian(illum_red, shape_Land, clab_white_illum);
-[Iredperc, ~] = get_mondrian(illum_white, shape_Land, clab_redexp);
-
-% Blue Expriment
-
-Iblue = I.*graylms./I(142, 81, :);
-mx = max(Iblue(:)); Iblue = Iblue./mx;
-[Iblueprc, ~] = get_mondrian(illum_white, shape_Land, clab_bluexp);
-
-% Green Experiment
-
-Igreen = I.*graylms./I(246, 82, :);
-mx = max(Igreen(:)); Igreen = Igreen./mx;
-[Igreenpc, ~] = get_mondrian(illum_white, shape_Land, clab_greenx);
-
-% Yellow Experiment
-
-Iyellow = I.*graylms./I(179, 190, :);
-mx = max(Iyellow(:)); Iyellow = Iyellow./mx;
-[Iyellop, ~] = get_mondrian(illum_white, shape_Land, clab_yellow);
-
-% Plots
-
-if figs_on
-	figure(1), imshow(Irgb), title('RGB vision of the Mondrian')
-	figure(31), subplot(121), imshow(I), title('grey exp'), hold on, plot(242, 167, '*k'), subplot(122), imshow(Igreyprc), title('perceived')
-	figure(32), subplot(121), imshow(Ired), title('red exp'), hold on, plot(99, 182, '*k'), subplot(122), imshow(Iredperc), title('perceived')
-	% figure(33), subplot(121), imshow(Iblue), title('blue exp'), hold on, plot(81, 142, '*k'), subplot(122), imshow(Iblueprc), title('perceived')
-	% figure(34), subplot(121), imshow(Igreen), title('green exp'), hold on, plot(82, 246, '*k'), subplot(122), imshow(Igreenpc), title('perceived')
-	% figure(35), subplot(121), imshow(Iyellow), title('yellow exp'), hold on, plot(190, 179, '*k'), subplot(122), imshow(Iyellop), title('perceived')
-end
-
-%% Saving
-
-if save_on
-	imwrite(I, strcat(image_dir, 'grey_exp.png'))
-	imwrite(Igreyprc, strcat(image_dir, 'grey_perceived.png'))
-	imwrite(Ired, strcat(image_dir, 'red_experiment.png'))
-	imwrite(Iredperc, strcat(image_dir, 'red_perceived.png'))
 end
