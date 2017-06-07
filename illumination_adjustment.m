@@ -8,15 +8,15 @@ blue_lab = '2.5PB 6/8';
 green_lab= '2.5G 7/6';
 yello_lab= '5Y 8.5/10';
 
-color_lab = green_lab;
+color_lab = yello_lab;
 
-magnituds = [3.2, 1.579, 2.107]  % magnitudes of L, M and S illuminants
+magnituds = [0.902, 1.244, 4.612]  % magnitudes of L, M and S illuminants
 
 
 %% Adjusting the Tristimulus values
 
-xyz = [0.6090    0.6957    0.4746]
+xyz = [0.6090    0.6957    0.4746];
 
-ref = get_independant_reflectances(color_lab, magnituds)
+ref = get_independant_reflectances(color_lab, magnituds);
 
 dif = xyz - ref

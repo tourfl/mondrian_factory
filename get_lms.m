@@ -7,7 +7,7 @@ function [ lms ] = get_lms(illuminant, color_label, sensor_answer)
 %	unless if it is gray color.
 
 	% Load data
-	load data/munsell380_800_final.mat;
+	load('data/munsell_380-800_every_gray.mat');
 
 	indec = find(contains(S, color_label));  % find indexes of string containing label
 	indef = find(S(indec,1)==color_label(1));  % find indexes of selected strings with same first letter

@@ -5,7 +5,7 @@
 %% Loading data
 
 load data/mondrian_shape_and_colors.mat;
-load data/illumination_matching_Land_Exp.mat;
+load data/illuminations.mat;
 
 %% Parameters
 
@@ -23,12 +23,13 @@ gamma_corr  = 1.0/2.2;  % to achieve Gamma correction - i.e. better quantization
 
 % so that gray appears gray in RGB
 illum_white =[1.68, 1.9, 1.31];
-illum_red =  [1 1 1];
-illum_blue = [1 1 1];
+illum_red =  0.605*[0.993, 5.161, 2.242];
+illum_blue = 1.2102*[3.288, 2.2, 0.9205];
 illum_green = 0.948*[3.2, 1.579, 2.107];
-illum_yello = [1 1 1];
+illum_yello = 0.4364*[0.902, 1.244, 4.612];
 
-illums = containers.Map(experiments, {illum_white, illum_red, illum_blue, illum_green, illum_yello});  % explicit coding
+% illums = containers.Map(experiments, {illum_white, illum_red, illum_blue, illum_green, illum_yello});  % explicit coding
+illums = illums_gray_appears_gray;
 
 
 %% Experiments - change illumination & recreate perceived Mondrian
@@ -41,10 +42,10 @@ for experiment = experiments
 	max(I(:))
 
 	if figs_on
-		figure(30+figure_indx(experiment{1})), subplot(121), imshow(I), title([experiment{1}, ' exp - no gamma correction'])
+		figure(30+figure_indx(experiment{1})), imshow(I), title([experiment{1}, ' exp - no gamma correction'])
 		coordinates = ref_color_coordinates(experiment{1});
 		hold on, plot(coordinates(1), coordinates(2), '*k')
-		subplot(122), imshow(Ipc), title('perceived')
+		figure(40+figure_indx(experiment{1})), imshow(Ipc), title('perceived')
 	end
 
 	if save_on
