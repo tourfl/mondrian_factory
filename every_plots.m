@@ -19,11 +19,11 @@ hold on, plot(380:800, munsell(1:end, index), '+k')
 
 % how are the illuminants?
 
-illum = [1.31, 1.9, 1.68];
+illum = [1, 10, 4];
 
-illuminantL=illum(1)*normpdf([380:800], 630, 4.5);
-illuminantM=illum(2)*normpdf([380:800], 530, 4.5);
-illuminantS=illum(3)*normpdf([380:800], 450, 4.5);
+illuminantL=illum(1)*normpdf([380:800], 630, 4);
+illuminantM=illum(2)*normpdf([380:800], 530, 4);
+illuminantS=illum(3)*normpdf([380:800], 450, 4);
 
 hold on, aS = area(380:800, illuminantS)
 aS.FaceColor = 'blue';

@@ -9,6 +9,8 @@ function ind_ref = get_independant_reflectances( color_lab, magnitudes )
 
 
 	% fake photometer with a constant sensitivity
+
+	std = 4.247;  % computed in perfect_illuminant.m
 	photometer = ones(331, 4);
 	photometer(1:331, 1) = 390:720;
 
