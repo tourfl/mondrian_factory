@@ -1,6 +1,7 @@
 % author: Raph
 % date: 29 May 2017
 
+clear all, close all
 
 %% Loading data
 
@@ -9,7 +10,7 @@ load data/illuminations.mat;
 
 %% Parameters
 
-figs_on = 1;  % show or not figures
+figs_on = 0;  % show or not figures
 save_on = 1;  % save or not images
 
 image_dir = '../images/';
@@ -21,25 +22,20 @@ gamma_corr  = 1.0/2.2;  % to achieve Gamma correction - i.e. better quantization
 
 % Illuminations - THE point, computed in illumination_adjustment.m
 
-% so that gray appears gray in RGB
-illum_white =[1.68, 1.9, 1.31];
-illum_red =  0.605*[0.993, 5.161, 2.242];
-illum_blue = 1.2102*[3.288, 2.2, 0.9205];
-illum_green = 0.948*[3.2, 1.579, 2.107];
-illum_yello = 0.4364*[0.902, 1.244, 4.612];
+rescale_illum = 1/9.4093
 
 % illums = containers.Map(experiments, {illum_white, illum_red, illum_blue, illum_green, illum_yello});  % explicit coding
-illums = illums_gray_appears_gray;
+illums = magnituds_matching_xyz_Land;
 
 
 %% Experiments - change illumination & recreate perceived Mondrian
 
 for experiment = experiments
 
-	[I, ~] = get_mondrian(illums(experiment{1}), shape_Land, base_color_labels);
-	[Ipc, ~] = get_mondrian(illums('gray'), shape_Land, color_labels(experiment{1}));
+	[I, ~] = get_mondrian(rescale_illum*illums(experiment{1}), shape_Land, base_color_labels);
+	[Ipc, ~] = get_mondrian(rescale_illum*illums('gray'), shape_Land, color_labels(experiment{1}));
 
-	max(I(:))
+	mx = max(I(:))
 
 	if figs_on
 		figure(30+figure_indx(experiment{1})), imshow(I), title([experiment{1}, ' exp - no gamma correction'])
