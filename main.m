@@ -6,7 +6,7 @@ clear all, close all
 %% Loading data
 
 load data/mondrian_shape_and_colors.mat;
-load data/illuminations.mat;
+load data/illumination_gray_illum.mat;
 
 %% Parameters
 
@@ -22,10 +22,10 @@ gamma_corr  = 1.0/2.2;  % to achieve Gamma correction - i.e. better quantization
 
 % Illuminations - THE point, computed in illumination_adjustment.m
 
-rescale_illum = 1/9.4093
+rescale = rescale_illum
 
 % illums = containers.Map(experiments, {illum_white, illum_red, illum_blue, illum_green, illum_yello});  % explicit coding
-illums = magnituds_matching_xyz_Land;
+illums = Magnituds;
 
 
 %% Experiments - change illumination & recreate perceived Mondrian

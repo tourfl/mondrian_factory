@@ -4,35 +4,30 @@ clear all; close all
 
 %% Data
 
-load data/Land_exp_data.mat
+load data/illumination_Land_xyz.mat
 
-experiments = {'gray', 'red', 'blue', 'green', 'yellow'};
+magnituds_gray = [11.5000    7.8000    3.3000];
+magnituds_red = [6.2542 19.5275 5.21];
+magnituds_blue = [20.706 8.3222 2.138];
+magnituds_green = [20.1455 5.9745 4.9];
+magnituds_yellow = [5.6801 4.7065 10.725];
 
-xyz_Land = [5.8 3.2 1.6];
-xyz_Gray = [3.83481686033628 2.63186762910496 1.10341406138189];
-
-magnituds_gray = [17.393 9.484 4.785];
-magnituds_red = [9.4593 23.743 7.5575];
-magnituds_blue = [31.317 10.119 3.1025];
-magnituds_green = [30.469 7.2645 7.102];
-magnituds_yellow = [8.591 5.7225 15.552];
-
-magnituds_matching_xyz_Land = containers.Map(experiments, {magnituds_gray, magnituds_red, magnituds_blue, magnituds_green, magnituds_yellow})
+current_magnituds = containers.Map(experiments, {magnituds_gray, magnituds_red, magnituds_blue, magnituds_green, magnituds_yellow})
 
 %% Parameters
 
+solution = label_solution
 experiment = 'yellow'
 label = labels(experiment)
-magnituds = magnituds_matching_xyz_Land(experiment)  % magnitudes of L, M and S illuminants
-xyz = xyz_Land
+magnituds = Magnituds(experiment)  % magnitudes of L, M and S illuminants
+myxyz = xyz
 
 %% Adjusting the Tristimulus values
 
 ref = get_independant_reflectances(label, magnituds)
 
-dif = xyz - ref
-ratio = xyz./ref
+dif = myxyz - ref
+ratio = myxyz./ref
 
 %% add new data to file
 
-save('data/illuminations.mat', 'magnituds_matching_xyz_Land', '-append')
