@@ -6,7 +6,7 @@ clear all, close all
 %% Loading data
 
 load data/mondrian_shape_and_colors.mat;
-load data/illumination_gray_illum.mat;
+load data/illumination_lms_white.mat;
 
 %% Parameters
 
@@ -21,7 +21,7 @@ figure_indx = containers.Map(experiments, 1:5);
 gamma_corr  = 1.0/2.2;  % to achieve Gamma correction - i.e. better quantization in the darker areas because the VHS is more sensitive to change in thoses values
 
 % Illuminations - THE point, computed in illumination_adjustment.m
-
+solution = solution
 rescale = rescale_illum
 
 % illums = containers.Map(experiments, {illum_white, illum_red, illum_blue, illum_green, illum_yello});  % explicit coding
@@ -32,8 +32,8 @@ illums = Magnituds;
 
 for experiment = experiments
 
-	[I, ~] = get_mondrian(rescale_illum*illums(experiment{1}), shape_Land, base_color_labels);
-	[Ipc, ~] = get_mondrian(rescale_illum*illums('gray'), shape_Land, color_labels(experiment{1}));
+	[I, ~] = get_mondrian(rescale*illums(experiment{1}), shape_Land, base_color_labels);
+	[Ipc, ~] = get_mondrian(rescale*illums('gray'), shape_Land, color_labels(experiment{1}));
 
 	mx = max(I(:))
 
@@ -45,8 +45,8 @@ for experiment = experiments
 	end
 
 	if save_on
-		imwrite(I.^gamma_corr, [image_dir, experiment{1}, '_exp.png'])  % gamma corrected as input of the vce algo
-		imwrite(Ipc, [image_dir, experiment{1}, '_perceived.png'])
+		imwrite(I.^gamma_corr, [image_dir, experiment{1}, '_exp_sol_', num2str(solution), '_gamma_corrected.png'])  % gamma corrected as input of the vce algo
+		imwrite(Ipc, [image_dir, experiment{1}, '_perceived_sol_', num2str(solution), '.png'])
 	end
 
 end

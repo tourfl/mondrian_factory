@@ -6,21 +6,22 @@ clear all; close all
 
 load data/illumination_Land_xyz.mat
 
-magnituds_gray = [11.5000    7.8000    3.3000];
-magnituds_red = [6.2542 19.5275 5.21];
-magnituds_blue = [20.706 8.3222 2.138];
-magnituds_green = [20.1455 5.9745 4.9];
-magnituds_yellow = [5.6801 4.7065 10.725];
+magnituds_gray = [2.192 1.785 1.2065];  % white illuminants!
+magnituds_red = [1.192 4.469 1.91];
+magnituds_blue = [3.9465 1.9045 0.784];
+magnituds_green = [3.8395 1.3672 1.79];
+magnituds_yellow = [1.0826 1.077 3.92];
 
 current_magnituds = containers.Map(experiments, {magnituds_gray, magnituds_red, magnituds_blue, magnituds_green, magnituds_yellow})
 
 %% Parameters
 
-solution = label_solution
+solution = 'solution 1 - LMS answer 1 for pure white (N 10/ spectrum equal to 1 everywhere)'
 experiment = 'yellow'
 label = labels(experiment)
-magnituds = Magnituds(experiment)  % magnitudes of L, M and S illuminants
-myxyz = xyz
+% label = 'N 10/'  % most pure white, artificially made
+magnituds = current_magnituds(experiment)  % magnitudes of L, M and S illuminants
+myxyz = [0.7309    0.6023    0.4034]
 
 %% Adjusting the Tristimulus values
 
@@ -28,6 +29,13 @@ ref = get_independant_reflectances(label, magnituds)
 
 dif = myxyz - ref
 ratio = myxyz./ref
+
+%% for white ref purpose
+
+% illuminant=magnituds(3)*normpdf([1:331],60,4.5)+magnituds(2)*normpdf([1:331],140,4.5)+magnituds(1)*normpdf([1:331],240,4.5);
+% load data/good_cones_answers.mat;
+% lms = get_lms(illuminant, label, cones_answers)
+% [1 1 1] - lms(1,:)
 
 %% add new data to file
 
