@@ -6,7 +6,7 @@ clear all, close all
 %% Loading data
 
 load data/mondrian_shape_and_colors.mat;
-load data/illumination_lms_white.mat;
+load data/illumination_Land.mat;
 
 %% Parameters
 
