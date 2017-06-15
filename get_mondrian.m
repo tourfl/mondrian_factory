@@ -1,4 +1,4 @@
-function [ I, Irgb ] = get_mondrian( illum, shape, color_labels )
+function I = get_mondrian( illum, shape, color_labels, space )
 %GET_MONDRIAN Construct a Mondrian with a given 24-by-24 shape
 %   [I, IRGB] = GET_MONDRIAN_SHAPE_1(ILLUM, SHAPE, COLOR_LABELS) Construct a given
 %	shape under the illuminant ILLUM, which is the sum of 3 narrow gaussian
@@ -9,34 +9,28 @@ function [ I, Irgb ] = get_mondrian( illum, shape, color_labels )
 %	I is the LMS answer of the Mondrian
 %	SHAPE is a cell array of matrices 2 by 2
 
-% Cones answer as sensor
-load data/good_cones_answers.mat;
+	% Cones answer as sensor
+	filename = ['data/', space, '_sensor.mat'];
+	load(filename)
 
 
-% Illuminant is the sum of 3 narrow gaussian curves at 450, 530 qand 630nm
-illuminant=illum(3)*normpdf([1:331],60,4.5)+illum(2)*normpdf([1:331],140,4.5)+illum(1)*normpdf([1:331],240,4.5);
+	% Illuminant is the sum of 3 narrow gaussian curves at 450, 530 qand 630nm
+	illuminant=illum(3)*normpdf([1:331],60,4.5)+illum(2)*normpdf([1:331],140,4.5)+illum(1)*normpdf([1:331],240,4.5);
 
 
-% 24-by-24-by-3 color pattern matrix
+	% 24-by-24-by-3 color pattern matrix
 
-P = zeros(24, 24, 3);
+	P = zeros(24, 24, 3);
 
 
-for i=2:size(shape(:))
-	s=shape{i};
-	P(s(1):s(3), s(2):s(4), :)= repmat(get_lms(illuminant, color_labels{i}, cones_answers), [s(3)-s(1)+1 s(4)-s(2)+1]);
-end
+	for i=2:size(shape(:))
+		s=shape{i};
+		P(s(1):s(3), s(2):s(4), :)= repmat(get_lms(illuminant, color_labels{i}, sensor), [s(3)-s(1)+1 s(4)-s(2)+1]);
+	end
 
-% From pattern to true image
-I = zeros(320, 320, 3);
-I = I+get_lms(illuminant, color_labels{1}, cones_answers);  % A
-I(41:280, 41:280, :) = imresize(P, 10, 'nearest');
-
-% conversion from LMS to RGB
-Irgb = colorspace('CAT02 LMS->RGB', I);
-
-% normalize LMS, so that it never goes up to 1
-I=I./1.0874;
-
+	% From pattern to true image
+	I = zeros(320, 320, 3);
+	I = I+get_lms(illuminant, color_labels{1}, sensor);  % A
+	I(41:280, 41:280, :) = imresize(P, 10, 'nearest');
 end
 

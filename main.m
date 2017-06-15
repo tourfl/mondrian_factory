@@ -3,50 +3,61 @@
 
 clear all, close all
 
-%% Loading data
-
-load data/mondrian_shape_and_colors.mat;
-load data/illumination_Land.mat;
-
 %% Parameters
 
-figs_on = 0;  % show or not figures
-save_on = 1;  % save or not images
+space = 'RGB'
+shape = 'Land'
+illum = 1  % out of 4 possibilities
+correction = @gamma_cor  %TODO
 
-image_dir = '../images/';
+figs_on = 0  % show or not figures
+save_on = 1  % save or not images
 
-experiments = {'gray', 'red', 'blue', 'green', 'yellow'};
-figure_indx = containers.Map(experiments, 1:5);
+%% Loading data
+filename_basics = 'data/basics.mat';
+filename_shape = ['data/shape/', shape, 'shape.mat'];
+filename_illum = ['data/illum/illum' num2str(illum) '_' space '.mat'];
+
+load(filename_basics), load(filename_shape), load(filename_illum)
+
+%% Various things
 
 gamma_corr  = 1.0/2.2;  % to achieve Gamma correction - i.e. better quantization in the darker areas because the VHS is more sensitive to change in thoses values
 
-% Illuminations - THE point, computed in illumination_adjustment.m
-solution = solution
-rescale = rescale_illum
+rescale = rescale_illum  % or rescale_illum
 
-% illums = containers.Map(experiments, {illum_white, illum_red, illum_blue, illum_green, illum_yello});  % explicit coding
+% construct the path
+path_images = ['../images/', space, '/solution', num2str(illum), '/'];
+
 illums = Magnituds;
-
 
 %% Experiments - change illumination & recreate perceived Mondrian
 
 for experiment = experiments
+	experiment=experiment{1}
 
-	[I, ~] = get_mondrian(rescale*illums(experiment{1}), shape_Land, base_color_labels);
-	[Ipc, ~] = get_mondrian(rescale*illums('gray'), shape_Land, color_labels(experiment{1}));
+	I = get_mondrian(rescale*illums(experiment), shape, base_color_labels, space);
+	Ipc = get_mondrian(rescale*illums('gray'), shape, color_labels(experiment), space);
 
 	mx = max(I(:))
 
 	if figs_on
-		figure(30+figure_indx(experiment{1})), imshow(I), title([experiment{1}, ' exp - no gamma correction'])
-		coordinates = ref_color_coordinates(experiment{1});
+		figure(30+figure_indx(experiment)), imshow(I)
+		coordinates = ref_color_coordinates(experiment);
 		hold on, plot(coordinates(1), coordinates(2), '*k')
-		figure(40+figure_indx(experiment{1})), imshow(Ipc), title('perceived')
+		pause(0.1), title([experiment, 'exp, illum', num2str(illum), ' ', space])
+
+		figure(40+figure_indx(experiment)), imshow(Ipc)
+		pause(0.1), title([experiment, 'pcp, illum', num2str(illum), ' ', space])
 	end
 
 	if save_on
-		imwrite(I.^gamma_corr, [image_dir, experiment{1}, '_exp_sol_', num2str(solution), '_gamma_corrected.png'])  % gamma corrected as input of the vce algo
-		imwrite(Ipc, [image_dir, experiment{1}, '_perceived_sol_', num2str(solution), '.png'])
+		mkdir(path_images);
+
+		filename_exp = [path_images, experiment, 'exp_s', num2str(illum), '_', space, '_corrected.png'];
+		filename_pcp = [path_images, experiment, 'pcp_s', num2str(illum), '_', space, '.png'];
+		imwrite(I.^gamma_corr, filename_exp);  % gamma corrected as input of the vce algo
+		imwrite(Ipc, filename_pcp);
 	end
 
 end
