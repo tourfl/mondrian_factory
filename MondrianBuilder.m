@@ -1,20 +1,13 @@
-classdef MondrianBuilder < handle
+classdef MondrianBuilder < MondrianHandler
 	%MONDRIANBUILDER self explained name!
 	%	Note: correction is only applied before writing the image
 
 	properties(Constant)
 		filenameBasics = 'data/basics.mat';
-
-		no_correction = @(I, g) 1;
-		gamma_correction = @(I, g) I.^g;
 	end
 
 	properties
-		space
-		solution
-		experiment
 		sensor
-		funcCorrection
 
 		Illuminants
 		shape
@@ -29,8 +22,10 @@ classdef MondrianBuilder < handle
 
 	methods
 		function obj = MondrianBuilder(space, solution, shapename)
-			obj.space = space;
-			obj.solution = solution;
+			% Constructor
+
+			% superclass constructor call
+			obj = obj@MondrianHandler(space, solution);
 
 			% Construct filenames
 
@@ -55,15 +50,15 @@ classdef MondrianBuilder < handle
 			obj.shape = shape;
 
 			if strcmp(space, 'HDR')
-				% input images need not to be corrected and scaled
+				% input images need not to be scaled
 				obj.scalingCoef = 1;
 				obj.sensor = 'LMS';
-				obj.funcCorrection = MondrianBuilder.no_correction;
 			else
 				obj.scalingCoef = rescale_illum;
 				obj.sensor = space;
-				obj.funcCorrection = MondrianBuilder.gamma_correction;
 			end
+
+			fprintf(1, 'scalingCoef = %s\n', obj.scalingCoef);
 		end
 
 		function [I, Ipc] = run(obj, experiment)
@@ -81,7 +76,7 @@ classdef MondrianBuilder < handle
 			imageHandler = ImageHandler(obj.space, obj.solution, obj.experiment, 0);
 
 			imageHandler.writeInput(obj.funcCorrection(obj.IcurrentExp));
-			imageHandler.writeImage(obj.funcCorrection(obj.IcurrentPcp), 'percepted');
+			imageHandler.writeInput(obj.funcCorrection(obj.IcurrentPcp), 'percepted');
 		end
 
 		function plot_current(obj)
