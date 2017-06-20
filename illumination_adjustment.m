@@ -7,7 +7,7 @@ clear all; close all
 load data/basics  % containing labels
 load data/illum/adjustment_data  % containing labels
 
-magnituds_gray = [1.52 2.8 3.25];  % white illuminants!
+magnituds_gray = [11.5 7.8 3.3];  % white illuminants!
 magnituds_red = magnituds_gray.*[0.543988720949516 2.50413560512236 1.57980926216635];
 magnituds_blue = magnituds_gray.*[1.80102490962234 1.06720744242307 0.648557343081103];
 magnituds_green = magnituds_gray.*[1.75225696958025 0.766159415750222 1.48453087573206];
@@ -19,15 +19,16 @@ Magnituds = containers.Map(experiments, {magnituds_gray, magnituds_red, magnitud
 
 label_solution = 'RGB answer 1 for pure white (N 10/ spectrum equal to 1 everywhere)'
 solution=1
-experiment = 'yellow'
+experiment = 'gray'
 label = labels(experiment)
 % label = 'N 10/'  % most pure white, artificially made
 magnituds = Magnituds(experiment)  % magnitudes of L, M and S illuminants
-xyz = [0.507 0.945 1.087]
+xyz = [5.8 3.2 1.6]
 
 %% Adjusting the Tristimulus values
 
-ref = get_independant_reflectances(label, magnituds)
+% ref = get_independant_reflectances(label, magnituds)
+ref = get_independant_reflectances_at_630_530_450_only(label, magnituds)
 
 dif = xyz - ref
 ratio = xyz./ref

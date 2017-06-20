@@ -1,4 +1,4 @@
-function I = get_mondrian( illum, shape, color_labels, space )
+function I = get_mondrian( illum, shape, color_labels, sensorname )
 %GET_MONDRIAN Construct a Mondrian with a given 24-by-24 shape
 %   [I, IRGB] = GET_MONDRIAN_SHAPE_1(ILLUM, SHAPE, COLOR_LABELS) Construct a given
 %	shape under the illuminant ILLUM, which is the sum of 3 narrow gaussian
@@ -10,7 +10,7 @@ function I = get_mondrian( illum, shape, color_labels, space )
 %	SHAPE is a cell array of matrices 2 by 2
 
 	% Cones answer as sensor
-	filename = ['data/', space, '_sensor.mat'];
+	filename = ['data/', sensorname, '_sensor.mat'];
 	load(filename)
 
 
