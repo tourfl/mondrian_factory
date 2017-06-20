@@ -15,7 +15,7 @@ save_on = 1  % save or not images
 %% Loading data
 filename_basics = 'data/basics.mat';
 
-load(filename_basics)  % to get the experiments list
+load(filename_basics);  % to get the experiments list
 
 %% Various things
 

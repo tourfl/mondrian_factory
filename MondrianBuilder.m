@@ -58,7 +58,7 @@ classdef MondrianBuilder < MondrianHandler
 				obj.sensor = space;
 			end
 
-			fprintf(1, 'scalingCoef = %s\n', obj.scalingCoef);
+			fprintf(1, 'scalingCoef = %i\n', obj.scalingCoef);
 		end
 
 		function [I, Ipc] = run(obj, experiment)
@@ -75,8 +75,8 @@ classdef MondrianBuilder < MondrianHandler
 		function save_current(obj)
 			imageHandler = ImageHandler(obj.space, obj.solution, obj.experiment, 0);
 
-			imageHandler.writeInput(obj.funcCorrection(obj.IcurrentExp));
-			imageHandler.writeInput(obj.funcCorrection(obj.IcurrentPcp), 'percepted');
+			imageHandler.writeInput(obj.IcurrentExp);
+			imageHandler.writeInput(obj.IcurrentPcp, 'percepted');
 		end
 
 		function plot_current(obj)
