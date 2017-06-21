@@ -9,7 +9,7 @@ classdef MondrianBuilder < MondrianHandler
 	properties
 		sensor
 
-		Illuminants
+		Illumination
 		shape
 		color_labels
 		base_color_labels
@@ -27,46 +27,36 @@ classdef MondrianBuilder < MondrianHandler
 			% superclass constructor call
 			obj = obj@MondrianHandler(space, solution);
 
+			obj.Illumination = IlluminationHandler(solution, space);
+
 			% Construct filenames
 
-			filename_illum = ['data/illum/illum' num2str(solution)];
 			filename_shape = ['data/shape/', shapename, 'shape.mat'];
-
-			if solution == 1
-				filename_illum = [filename_illum '_' space];
-			end
 
 			% Load data
 
 			load(obj.filenameBasics);
-			load([filename_illum '.mat']);
 			load(filename_shape);
 
 			% Add loaded data to the properties
 
 			obj.base_color_labels = base_color_labels;
 			obj.color_labels = color_labels;
-			obj.Illuminants = Magnituds;
 			obj.shape = shape;
 
 			if strcmp(space, 'HDR')
-				% input images need not to be scaled
-				obj.scalingCoef = 1;
-				obj.sensor = 'LMS';
+				obj.sensor = 'RGB';
 			else
-				obj.scalingCoef = rescale_illum;
 				obj.sensor = space;
 			end
-
-			fprintf(1, 'scalingCoef = %i\n', obj.scalingCoef);
 		end
 
 		function [I, Ipc] = run(obj, experiment)
 			% create, return the Mondrians corr. to the experiment
 			obj.experiment = experiment;
 
-			I = get_mondrian(obj.scalingCoef*obj.Illuminants(experiment), obj.shape, obj.base_color_labels, obj.sensor);
-			Ipc = get_mondrian(obj.scalingCoef*obj.Illuminants('gray'), obj.shape, obj.color_labels(experiment), obj.sensor);
+			I = get_mondrian(obj.Illumination.getScaledMagnituds(experiment), obj.shape, obj.base_color_labels, obj.sensor);
+			Ipc = get_mondrian(obj.Illumination.getScaledMagnituds('gray'), obj.shape, obj.color_labels(experiment), obj.sensor);
 
 			obj.IcurrentExp = I;
 			obj.IcurrentPcp = Ipc;

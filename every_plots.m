@@ -1,28 +1,29 @@
 clear all, close all
 
-% how are the cones answers?
+space = 'LMS'
+senson = 1
+solution = 2
+experiment = 'yellow'
+color_label = 'N 7/'  % C color, i.e. 5Y 8.5/10
 
-load data/good_cones_answers.mat;
+book = MunsellBook();
+load(['data/illum/illum', num2str(solution), '.mat']);
 
-figure(31), hold off
-% plot(cones_answers(:,1), cones_answers(:,2), 'red')  % long
-% hold on, plot(cones_answers(:,1), cones_answers(:,3), 'green')  % mid
-% hold on, plot(cones_answers(:,1), cones_answers(:,4), 'blue')  % short
+figure(32)
 
-% how is the reflectance of the C color, i.e. 5Y 8.5/10?
+if senson
+	% how are the sensor answers?
+	load(['data/' space '_sensor.mat']);
+		plot(sensor(:,1), sensor(:,2), 'red')  % long
+		hold on, plot(sensor(:,1), sensor(:,3), 'green')  % mid
+		plot(sensor(:,1), sensor(:,4), 'blue')  % short
+end
 
-load data/munsell380_800_final.mat;
-
-color_label = 'N 7/';
-
-indec = find(contains(S, color_label));  % find indexes of string containing label
-index = find(S(indec,1)==color_label(1));  % find indexes of selected strings with same first letter
-
-hold on, plot(380:800, munsell(1:end, index), '+k')
+hold on, plot(380:800, book.getReflectances(color_label), '+k');
 
 % how are the illuminants?
 
-illum = [11.5, 7.8, 3.3];
+illum = Magnituds(experiment);
 
 illuminantL=illum(1)*normpdf([380:800], 630, 4);
 illuminantM=illum(2)*normpdf([380:800], 530, 4);
@@ -37,7 +38,17 @@ aL.FaceColor = 'red';
 
 % Presentation
 
+ylabel('energy (legend)'), xlabel('wavelength (nm)')
 title('illumination and reflectance')
-xlabel('wavelength (nm)'), ylabel('energy (legend)')
 % legend('long range wavelength cones answer', 'mid range', 'short range', 'reflectance of color N 7/, gray', 'blue illuminant', 'green', 'red')
-legend('reflectance of color N 7/, gray', 'blue illuminant', 'green', 'red')
+
+refl_leg = ['reflectance of color ' color_label];
+blue_leg = ['blue illuminant from sol ' num2str(solution)];
+
+if senson
+	legend(['Long-wave sensor (' space ')'], 'Mid-wave sensor', 'Short-wave sensor', refl_leg, blue_leg, 'green', 'red')
+else
+	legend(refl_leg, blue_leg, 'green', 'red')
+end
+
+spectrumLabel(gca);
