@@ -5,7 +5,7 @@ clear all, close all
 
 %% Parameters
 
-space = 'LMS'
+space = 'HDR'
 shape = 'Land'
 solution = 2  % out of 4 possibilities
 
