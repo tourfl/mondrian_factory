@@ -5,11 +5,11 @@ clear all, close all
 
 %% Parameters
 
-space = 'HDR'
+space = 'RGB'
 shape = 'Land'
-solution = 2  % out of 4 possibilities
+solution = 1  % out of 4 possibilities
 
-figs_on = 0  % show or not figures
+figs_on = 1  % show or not figures
 save_on = 1  % save or not images
 
 %% Loading data

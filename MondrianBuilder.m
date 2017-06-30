@@ -53,7 +53,7 @@ classdef MondrianBuilder < MondrianHandler
 
 		function [I, Ipc] = run(obj, experiment)
 			% create, return the Mondrians corr. to the experiment
-			obj.experiment = experiment;
+			obj.setExperiment(experiment);  
 
 			I = obj.get_mondrian(obj.Illumination.getScaledMagnituds(experiment), obj.shape, obj.base_color_labels, obj.sensor);
 			Ipc = obj.get_mondrian(obj.Illumination.getScaledMagnituds('gray'), obj.shape, obj.color_labels(experiment), obj.sensor);
@@ -63,15 +63,14 @@ classdef MondrianBuilder < MondrianHandler
 		end
 
 		function save_current(obj)
-			imageHandler = ImageHandler(obj.space, obj.solution, obj.experiment, 0);
 
-			imageHandler.writeInput(obj.IcurrentExp);
-			imageHandler.writeInput(obj.IcurrentPcp, 'percepted');
+			obj.writeInput(obj.IcurrentExp);
+			obj.writeInput(obj.IcurrentPcp, 'percepted');
 		end
 
 		function plot_current(obj)
-			id = MondrianBuilder.simpleHash(obj.experiment)
-			titleBase = [obj.experiment, 'exp, solution', num2str(obj.solution), ', ', obj.space ', ']
+			id = MondrianBuilder.simpleHash(obj.getExperiment)
+			titleBase = [obj.getExperiment, 'exp, solution', num2str(obj.solution), ', ', obj.space ', ']
 
 			figure(id), imshow(obj.IcurrentExp), title([titleBase 'illuminated']);
 			figure(id+1), imshow(obj.IcurrentPcp), title([titleBase 'percepted']);
