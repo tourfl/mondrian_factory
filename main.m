@@ -10,7 +10,7 @@ shape = 'Land'
 solution = 1  % out of 4 possibilities
 
 figs_on = 1  % show or not figures
-save_on = 1  % save or not images
+save_on = 0  % save or not images
 
 %% Loading data
 filename_basics = 'data/basics.mat';
