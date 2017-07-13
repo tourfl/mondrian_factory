@@ -1,6 +1,5 @@
 classdef MondrianBuilder < MondrianHandler
 	%MONDRIANBUILDER self explained name!
-	%	Note: correction is only applied before writing the image
 
 	properties(Constant)
 		filenameBasics = 'data/basics.mat';
@@ -54,28 +53,20 @@ classdef MondrianBuilder < MondrianHandler
 		end
 
 		function [I, Ipc] = run(obj, experiment)
-			% create, return the Mondrians corr. to the experiment
+			% create, return the Mondrians from experiment
 			obj.setExperiment(experiment);  
 
 			I = obj.getMondrian(obj.Illumination.getScaledMagnituds(experiment), obj.base_color_labels);
 			Ipc = obj.getMondrian(obj.Illumination.getScaledMagnituds('gray'), obj.color_labels(experiment));
 
 			obj.Iinput_raw = I;
-			obj.Iperceptual = Ipc;
+			obj.Iperceptual_raw = Ipc;
 		end
 
 		function save_current(obj)
 
 			obj.writeInput(obj.Iinput_raw);
-			obj.writeInput(obj.Iperceptual, 'percepted');
-		end
-
-		function plot_current(obj)
-			id = MondrianBuilder.simpleHash(obj.getExperiment)
-			titleBase = [obj.getExperiment, 'exp, solution', num2str(obj.solution), ', ', obj.space ', ']
-
-			figure(id), imshow(obj.Iinput_raw), title([titleBase 'illuminated']), pause(.1);
-			figure(id+1), imshow(obj.Iperceptual), title([titleBase 'percepted']); pause(.1);
+			obj.writeInput(obj.Iperceptual_raw, 'percepted');
 		end
 
 		function I = getMondrian(obj, illum, color_labels)
@@ -109,12 +100,6 @@ classdef MondrianBuilder < MondrianHandler
 	end
 
 	methods(Static)
-		% create a numeric identifiant from the given string
-		function hash = simpleHash(experiment)
-			numExp = double(experiment);
-
-			hash = (numExp(1) + numExp(end)) * 2;
-		end
 	end
 
 end

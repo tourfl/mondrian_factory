@@ -10,7 +10,7 @@ shape = 'Land'
 solution = 1  % out of 4 possibilities
 
 figs_on = 1  % show or not figures
-save_on = 0  % save or not images
+save_on = true  % save or not images
 
 %% Loading data
 filename_basics = 'data/basics.mat';
@@ -43,6 +43,6 @@ for experiment = experiments
 	% end
 
 	if save_on, builder.save_current(); end
-	if figs_on, builder.plot_current(); end
+	if figs_on, builder.showOutput(); end
 
 end
