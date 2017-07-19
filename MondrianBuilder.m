@@ -72,7 +72,7 @@ classdef MondrianBuilder < MondrianHandler
 		function I = getMondrian(obj, illum, color_labels)
 
 			% Illuminant is the sum of 3 narrow gaussian curves at 450, 530 qand 630nm
-			illuminant=illum(3)*normpdf([1:331],60,4.5)+illum(2)*normpdf([1:331],140,4.5)+illum(1)*normpdf([1:331],240,4.5);
+			illuminant=illum(3)*normpdf([1:331],61,4.5)+illum(2)*normpdf([1:331],141,4.5)+illum(1)*normpdf([1:331],241,4.5);
 
 			% 24-by-24-by-3 color pattern matrix
 			P = zeros(24, 24, 3);

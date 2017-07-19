@@ -1,6 +1,6 @@
 clear all, close all
 
-space = 'LMS'
+space = 'RGB'
 senson = true
 solution = 1
 experiment = 'green'
@@ -25,20 +25,20 @@ hold on, plot(380:800, book.getReflectances(color_label), '+k');
 
 illum = Magnituds(experiment);
 
-illuminantL=illum(1)*normpdf([380:800], 630, 4);
-illuminantM=illum(2)*normpdf([380:800], 530, 4);
-illuminantS=illum(3)*normpdf([380:800], 450, 4);
+illuminantL=illum(1)*normpdf([1:331],241,4.5);
+illuminantM=illum(2)*normpdf([1:331],141,4.5);
+illuminantS=illum(3)*normpdf([1:331],61,4.5);
 
-hold on, aS = area(380:800, illuminantS);
+hold on, aS = area(390:720, illum_rescaler*illuminantS);
 aS.FaceColor = 'blue';
-hold on, aM = area(380:800, illuminantM);
+hold on, aM = area(390:720, illum_rescaler*illuminantM);
 aM.FaceColor = 'green';
-hold on, aL = area(380:800, illuminantL);
+hold on, aL = area(390:720, illum_rescaler*illuminantL);
 aL.FaceColor = 'red';
 
 % Presentation
 
-ylabel('energy (legend)')
+ylabel('energy')
 title('illumination, reflectance and sensors answers')
 % legend('long range wavelength cones answer', 'mid range', 'short range', 'reflectance of color N 7/, gray', 'blue illuminant', 'green', 'red')
 
