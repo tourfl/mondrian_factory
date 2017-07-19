@@ -3,46 +3,28 @@
 
 clear all, close all
 
-%% Parameters
+%% Init
 
-space = 'RGB'
+% parameters
+space = 'RGB'  % color space, RGB, LMS or HDR (this last case is particular)
 shape = 'Land'
 solution = 1  % out of 4 possibilities
 
-figs_on = 1  % show or not figures
+figs_on = true  % show or not figures
 save_on = true  % save or not images
 
-%% Loading data
+% Loading the variable "experiments" that contains the label of the experiments
 filename_basics = 'data/basics.mat';
+load(filename_basics);
 
-load(filename_basics);  % to get the experiments list
-
-%% Various things
-
-gamma_corr  = 1.0/2.2;  % to achieve Gamma correction - i.e. better quantization in the darker areas because the VHS is more sensitive to change in thoses values
-
+% creating the Mondrian builder
 builder = MondrianBuilder(space, solution, shape);
 
 %% Experiments - change illumination & recreate perceived Mondrian
 
 for experiment = experiments
-	experiment=experiment{1}
-
-	[I, Ipc] = builder.run(experiment);
-
-	mx = max(I(:))
-
-	% if figs_on
-	% 	figure(30+figure_indx(experiment)), imshow(I)
-	% 	coordinates = ref_color_coordinates(experiment);
-	% 	hold on, plot(coordinates(1), coordinates(2), '*k')
-	% 	pause(0.1), title([experiment, 'exp, illum', num2str(illum), ' ', space])
-
-	% 	figure(40+figure_indx(experiment)), imshow(Ipc)
-	% 	pause(0.1), title([experiment, 'pcp, illum', num2str(illum), ' ', space])
-	% end
+	builder.run(experiment{1});
 
 	if save_on, builder.save_current(); end
 	if figs_on, builder.showOutput(); end
-
 end

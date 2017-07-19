@@ -11,8 +11,8 @@ classdef MunsellBook < handle
 	end
 
 	methods
+		%% Construct a basic MunsellBook
 		function obj = MunsellBook()
-			% Construct a basic MunsellBook
 
 			load(obj.munsellpath);
 
@@ -20,8 +20,8 @@ classdef MunsellBook < handle
 			obj.labels = S;
 		end
 
+		%% Return reflectances of given LABEL as a column vector
 		function R = getReflectances(obj, label)
-			% Return reflectances of given LABEL as a column vector
 
 			indec = find(contains(obj.labels, label));  % find indexes of string containing label
 			indef = find(obj.labels(indec,1)==label(1));  % find indexes of selected strings with same first letter
