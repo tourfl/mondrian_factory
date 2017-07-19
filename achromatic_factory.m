@@ -1,9 +1,9 @@
-% add monochromatic values to Munsell table of colour
+% add achromatic values to Munsell table of colour
 
 % load data
 load data/munsell380_800_perso3.mat;
 
-% find indexes of every every hues that have the right value regarding Munsell classification
+% find indexes of every hues that have the right value regarding Munsell classification
 
 index1 = find(contains(S, '6/1'));
 inde10 = find(contains(S, '6/10'));
