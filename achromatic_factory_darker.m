@@ -3,7 +3,7 @@ close all
 
 % add very dark achromatic values to Munsell book, like N 1.75/
 
-% load data/munsell380_800_final.mat
+load data/munsell380_800_final.mat
 
 %% find darker achromatic already existing
 
@@ -29,7 +29,8 @@ figure(62), hold on, set(62, 'Position', [200 600 1000 500])
 plot(380:800, reflects(:, 1))
 
 plot(380:800, reflects(:, end), ':k')
-legend(num2str(alpha), num2str(my_alpha))
+legend(num2str(alpha), [num2str(my_alpha) ' - estimated'])
+xlim([380 800]), xlabel('wavelength (nm)'), ylabel('energy')
 
-munsell2(:,end+1) = new_ref;  % must have been created
-S2(end+1, 1:6) = ['N ', num2str(my_alpha), '/'];
+% munsell2(:,end+1) = new_ref;  % must have been created
+% S2(end+1, 1:6) = ['N ', num2str(my_alpha), '/'];

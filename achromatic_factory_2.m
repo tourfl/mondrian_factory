@@ -34,7 +34,8 @@ for p=1:sz-1
 end
 
 plot(380:800, reflects(:, end), ':k')
-legend(num2str(alphas(1)), num2str(alphas(2)), num2str(alphas(3)), num2str(alphas(4)), num2str(my_alpha))
+legend(num2str(alphas(1)), num2str(alphas(2)), num2str(alphas(3)), num2str(alphas(4)), [num2str(my_alpha) ' - estimated'])
+xlim([380 800]), xlabel('wavelength (nm)'), ylabel('energy')
 
 % munsell2(:,end+1) = new_ref;  % must have been created
 % S2(end+1, 1:7) = ['N ', num2str(my_alpha), '/'];

@@ -82,7 +82,7 @@ classdef MondrianBuilder < MondrianHandler
 
 			% From pattern to true image
 			I = zeros(320, 320, 3);
-			I = I+obj.getTristimulus(illuminant, perceptual_color_labels{1});  % Adding the gray surrond
+			I = I+obj.getTristimulus(illuminant, color_labels{1});  % Adding the gray surrond
 			I(41:280, 41:280, :) = imresize(P, 10, 'nearest');  % nearest neighbor, just replicate 10 times the same values
 		end
 

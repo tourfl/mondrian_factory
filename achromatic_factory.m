@@ -26,11 +26,11 @@ ach_reflect = mean(reflects, 2);  % Mean everything and it is done!
 
 % plot
 
-figure(41), hold off, plot(380:800, ach_reflect, '--Black')
-hold on, plot(380:800, reflects)
+figure(41), hold off, plot(380:800, reflects)
+hold on, h = plot(380:5:800, ach_reflect(1:5:421), '+Black')
+legend(h, 'estimated reflectance of N 6/'), xlim([380 800])
 
-xlabel('wavelength (nm)'), ylabel('energy (?)')
-legend('estimated reflectance of N 6/')
+xlabel('wavelength (nm)'), ylabel('energy')
 
 % add to the table
 

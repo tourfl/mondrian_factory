@@ -6,7 +6,7 @@ clear all, close all
 %% Init
 
 % parameters
-space = 'RGB'  % color space, RGB, LMS or HDR (this last case is particular)
+space = 'HDR'  % color space, RGB, LMS or HDR (this last case is particular)
 shape = 'Land'
 solution = 1  % out of 4 possibilities
 
