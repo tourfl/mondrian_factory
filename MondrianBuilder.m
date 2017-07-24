@@ -13,8 +13,6 @@ classdef MondrianBuilder < MondrianHandler
 		shape
 		perceptual_color_labels
 		base_color_labels
-
-		scalingCoef
 	end
 
 	methods
@@ -55,13 +53,13 @@ classdef MondrianBuilder < MondrianHandler
 			% Perceptual is built under gray illumination but with perceptual colors
 			Ipc = obj.build(obj.Illumination.getScaledMagnituds('gray'), obj.perceptual_color_labels(experiment));
 
-			obj.Iinput_raw = I;
-			obj.Iperceptual_raw = Ipc;
+			obj.Iexperimental = I;
+			obj.Iperceptual = Ipc;
 		end
 
 		function save_current(obj)
-			obj.writeInput(obj.Iinput_raw);
-			obj.writeInput(obj.Iperceptual_raw, 'percepted');
+			obj.writeInput(obj.Iexperimental);
+			obj.writeInput(obj.Iperceptual, 'percepted');
 		end
 
 		%% build a Mondrian: 320*320*3 matrix
@@ -96,5 +94,34 @@ classdef MondrianBuilder < MondrianHandler
 				tri(1,1,c-1)=sum(illuminant'.*reflectance.*obj.sensor(1:331, c));
 			end
 		end
+
+		function loadExisting(obj)
+			% load existing files
+
+			if strcmp(obj.getExperiment, 'None'), return, end
+
+			obj.Iexperimental = obj.readImage(obj.filenames.getRaw_input);
+			obj.Iperceptual = obj.readImage(obj.filenames.getPerceptual);
+		end
+
+		%% buildPres: build Ipres, see Presenter
+		function achieved = buildPres(obj)
+
+			Iin = obj.Iexperimental;
+			Ipcp= obj.Iperceptual;
+
+			if (isempty(Iin) || isempty(Ipcp))
+				achieved = false;
+				return
+			end
+
+			obj.Ipres = Presenter.build(Iin, Ipcp);
+			obj.titlePres = 'input, perceptual';
+
+			achieved = true;
+		end
+	end
+
+	methods(Access = private)
 	end
 end
