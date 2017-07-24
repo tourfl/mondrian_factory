@@ -8,7 +8,7 @@ clear all, close all
 % parameters
 space = 'HDR'  % color space, RGB, LMS or HDR (this last case is particular)
 shape = 'Land'
-solution = 1  % out of 4 possibilities
+solution = 5  % out of 5 possibilities
 
 figs_on = true  % show or not figures
 save_on = true  % save or not images
@@ -26,5 +26,5 @@ for experiment = experiments
 	builder.run(experiment{1});
 
 	if save_on, builder.save_current(); end
-	if figs_on, builder.showOutput(); end
+	if figs_on, builder.showInputs(); end
 end

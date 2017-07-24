@@ -9,11 +9,12 @@ load data/munsell380_800_final.mat
 
 index = find(contains(S, 'N 2.5/'));
 achro = S(index,:);
+
+% some string operations, to get the alpha
 achro(:, 1:2) = [];
+alpha = str2num(erase(achro(1, :), '/'))
 
 my_alpha = 1.5;
-
-alpha = str2num(erase(achro(1, :), '/'));
 
 reflects = munsell(:, index);  % get every spectrum answers of hue with right value
 
