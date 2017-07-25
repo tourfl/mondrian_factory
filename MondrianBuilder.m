@@ -45,7 +45,7 @@ classdef MondrianBuilder < MondrianHandler
 
 		%% create and return two Mondrians: an experimental and a perceptual
 		function [I, Ipc] = run(obj, experiment)
-			obj.setExperiment(experiment);  
+			obj.experiment = experiment;
 
 			% Experimental is build under an experimental illumination and with the actual colors
 			I = obj.build(obj.Illumination.getScaledMagnituds(experiment), obj.base_color_labels);
@@ -98,7 +98,7 @@ classdef MondrianBuilder < MondrianHandler
 		function loadExisting(obj)
 			% load existing files
 
-			if strcmp(obj.getExperiment, 'None'), return, end
+			if strcmp(obj.experiment, 'None'), return, end
 
 			obj.Iexperimental = obj.readImage(obj.filenames.getRaw_input);
 			obj.Iperceptual = obj.readImage(obj.filenames.getPerceptual);
