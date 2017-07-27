@@ -2,7 +2,7 @@ classdef MunsellBook < handle
 	%MUNSELLBOOK handler of data from Munsell MunsellBook
 
 	properties(Constant)
-		munsellpath = 'data/munsell_380_800_grays_n_white.mat';
+		munsellpath = '../mondrian_factory/data/munsell_380_800_grays_n_white.mat';
 	end
 
 	properties
