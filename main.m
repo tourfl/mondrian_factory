@@ -8,10 +8,11 @@ clear all, close all
 % parameters
 space = 'HDR'  % color space, RGB, LMS or HDR (this last case is particular)
 shape = 'Land'
-solution = 5  % out of 5 possibilities
+solution = 4  % out of 5 possibilities
 
-figs_on = true  % show or not figures
+figs_on = false  % show or not figures
 save_on = true  % save or not images
+stat_on = true
 
 % Loading the variable "experiments" that contains the label of the experiments
 filename_basics = 'data/basics.mat';
@@ -27,4 +28,5 @@ for experiment = experiments
 
 	if save_on, builder.save_current(); end
 	if figs_on, builder.showInputs(); end
+	if stat_on, builder.stats(); end
 end
