@@ -8,9 +8,9 @@ clear all, close all
 % parameters
 space = 'HDR'  % color space, RGB, LMS or HDR (this last case is particular)
 shape = 'Land'
-solution = 4  % out of 5 possibilities
+solution = 1  % out of 5 possibilities
 
-figs_on = false  % show or not figures
+figs_on = true  % show or not figures
 save_on = true  % save or not images
 stat_on = true
 
