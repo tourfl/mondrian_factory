@@ -26,7 +26,7 @@ git clone https://github.com/banterle/HDR_Toolbox.git ~/Documents/MATLAB/HDR_Too
 ```
 
 ### Pathes
-Next, you copy the **startup.m** file (:danger: **it assumes you have put the two repositories in your Matlab folder**) to your Matlab folder. It will automaticaly add the good folders to your Matlab path.
+Next, you copy the **startup.m** file (:warning: **it assumes you have put the two repositories in your Matlab folder**) to your Matlab folder. It will automaticaly add the good folders to your Matlab path.
 
 It is now installed! :camel:
 
