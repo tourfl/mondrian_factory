@@ -2,17 +2,17 @@ classdef MunsellBook < handle
 	%MUNSELLBOOK handler of data from Munsell MunsellBook
 
 	properties(Constant)
-		munsellpath = 'data/munsell_380_800_grays_n_white.mat';
+		munsellpath = '../mondrian_factory/data/munsell_380_800_grays_n_white.mat';
 	end
 
 	properties
-		values
-		labels
+		values  % reflectance spectra
+		labels  % color labels
 	end
 
 	methods
-		%% Construct a basic MunsellBook
 		function obj = MunsellBook()
+		%% Construct a basic MunsellBook
 
 			load(obj.munsellpath);
 
@@ -20,8 +20,8 @@ classdef MunsellBook < handle
 			obj.labels = S;
 		end
 
-		%% Return reflectances of given LABEL as a column vector
 		function R = getReflectances(obj, label)
+		%% Return reflectances of given LABEL as a column vector
 
 			indec = find(contains(obj.labels, label));  % find indexes of string containing label
 			indef = find(obj.labels(indec,1)==label(1));  % find indexes of selected strings with same first letter

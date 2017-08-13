@@ -7,35 +7,35 @@ clear all; close all
 load data/basics  % containing labels
 load data/illum/adjustment_data  % containing labels
 
-magnituds_gray = [11.5 7.8 3.3];  % white illuminants!
-magnituds_red = magnituds_gray.*[0.543988720949516 2.50413560512236 1.57980926216635];
-magnituds_blue = magnituds_gray.*[1.80102490962234 1.06720744242307 0.648557343081103];
-magnituds_green = magnituds_gray.*[1.75225696958025 0.766159415750222 1.48453087573206];
-magnituds_yellow = magnituds_gray.*[0.494057660241125 0.603539182303308 3.25085603757324];
+magnituds_gray = [83.2886                   107.689                   117.008];  % white illuminants!
+magnituds_red = magnituds_gray.*[0.543841457983631          2.50353406951974          1.57936695410528];
+magnituds_blue = magnituds_gray.*[1.80053735489996          1.06695108119779         0.648375762843677];
+magnituds_green = magnituds_gray.*[1.75178261680712         0.765975371337883           1.4841152432953];
+magnituds_yellow = magnituds_gray.*[0.493923914092421         0.603394202013505          3.24994587717272];
 
 Magnituds = containers.Map(experiments, {magnituds_gray, magnituds_red, magnituds_blue, magnituds_green, magnituds_yellow})
 
 %% Parameters
 
-label_solution = 'RGB answer 1 for pure white (N 10/ spectrum equal to 1 everywhere)'
-solution=1
-experiment = 'gray'
+label_solution = 'having projectors intensities equal to D65 energy at their wavelengthes'
+solution=5
+experiment = 'red'
 label = labels(experiment)
 % label = 'N 10/'  % most pure white, artificially made
 magnituds = Magnituds(experiment)  % magnitudes of L, M and S illuminants
-xyz = [5.8 3.2 1.6]
+xyz = [27.7736110916352           36.336306809062          39.1237189376281]
 
 %% Adjusting the Tristimulus values
 
-% ref = get_independant_reflectances(label, magnituds)
-ref = get_independant_reflectances_at_630_530_450_only(label, magnituds)
+ref = get_independant_reflectances(label, magnituds)
+% % ref = get_independant_reflectances_at_630_530_450_only(label, magnituds)
 
 dif = xyz - ref
 ratio = xyz./ref
 
 %% for white ref purpose
 
-% illuminant=magnituds(3)*normpdf([1:331],60,4.5)+magnituds(2)*normpdf([1:331],140,4.5)+magnituds(1)*normpdf([1:331],240,4.5);
+% illuminant=magnituds(3)*normpdf([1:331],61,4.5)+magnituds(2)*normpdf([1:331],141,4.5)+magnituds(1)*normpdf([1:331],241,4.5);
 % load data/RGB_sensor.mat;
 % lms = get_lms(illuminant, label, sensor)
 % [1 1 1] - lms(1,:)

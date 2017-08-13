@@ -14,9 +14,9 @@ function ind_ref = get_independant_reflectances( color_lab, magnitudes )
 	photometer = ones(331, 4);
 	photometer(1:331, 1) = 390:720;
 
-	illum(1, :) = magnitudes(1) * normpdf([390:720], 630, 4.5);
-	illum(2, :) = magnitudes(2) * normpdf([390:720], 530, 4.5);
-	illum(3, :) = magnitudes(3) * normpdf([390:720], 450, 4.5);
+	illum(1, :) = magnitudes(1) * normpdf([1:331],241,4.5);
+	illum(2, :) = magnitudes(2) * normpdf([1:331],141,4.5);
+	illum(3, :) = magnitudes(3) * normpdf([1:331],61,4.5);
 
 	for i=1:size(magnitudes(:))
 		lms = get_lms(illum(i, :), color_lab, photometer);
