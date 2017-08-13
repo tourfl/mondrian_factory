@@ -1,0 +1,133 @@
+<p><img src="doc/ip4ec.png" alt="IP4EC" title="" /> <br />
+Part of an internship at the <a href="http://ip4ec.upf.edu">Image processing for enhanced cinematography research group</a>.</p>
+
+<p>This README aims to explain how to use the code (<a href="#quickstart">Quickstart</a>), then how it works.</p>
+
+<h1>Quickstart</h1>
+
+<h2>Installation</h2>
+
+<ul>
+<li>If you have set up the whole Mondrians project (only available for <a href="http://ip4ec.upf.edu">UPF - IP4EC members</a>), you could go to <a href="#use">Use</a>.</li>
+</ul>
+
+<h3>Modules</h3>
+
+<p>Clone this remote and <a href="https://github.com/tourfl/personalized_tools">personalized_tools</a>, that you may store in the same directory.</p>
+
+<p><code>
+git clone git@github.com:tourfl/mondrian_factory.git <br />
+git clone git@github.com:tourfl/personalized_tools.git
+</code></p>
+
+<h3>Toolboxes</h3>
+
+<p>Then you clone the <a href="https://github.com/banterle/HDR_Toolbox">HDR Toolbox</a>, on your local Matlab folder (assuming this is <strong>~/Documents/MATLAB/</strong>), with the following command:</p>
+
+<p><code>
+git clone https://github.com/banterle/HDR_Toolbox.git ~/Documents/MATLAB/HDR_Toolbox
+</code></p>
+
+<h3>Pathes</h3>
+
+<p>Next, you copy the <strong>startup.m</strong> file (:danger: <strong>it assumes you have put the two repositories in your Matlab folder</strong>) to your Matlab folder. It will automaticaly add the good folders to your Matlab path.</p>
+
+<p>It is now installed! :camel:</p>
+
+<h2>Use</h2>
+
+<p>All you need to modify is the <strong>main.m</strong> file. The parameters are the following:</p>
+
+<ul>
+<li><a href="#space">space</a>: RGB, LMS or HDR</li>
+<li><a href="#shape">shape</a>: Land</li>
+<li><a href="#illumination">solution</a>: 1 to 5</li>
+<li>figs_on: true or false</li>
+<li>save_on: true or false</li>
+</ul>
+
+<p>The output images are stored at <strong>../images/</strong> (same level as mondrian_factory/).</p>
+
+<h1>Explanations</h1>
+
+<p>For more theoretical explanations, see the experimental report. This is only about how the code is working.</p>
+
+<h2>Required modules &amp; toolboxes</h2>
+
+<ul>
+<li><strong>personalized_tools</strong>: shared classes and superclasses (e.g. MondrianHandler)</li>
+<li><strong>HDR_Toolbox</strong>: I/O on PFM images, required for using PFM images</li>
+</ul>
+
+<h2>Folders</h2>
+
+<ul>
+<li><strong>data</strong>: mainly .mat files with color matching functions, shape description, munsell colors reflectances, illuminants powerness</li>
+</ul>
+
+<h2>Parameters</h2>
+
+<h3>Space</h3>
+
+<p>Mainly refers to color space. For <em>LMS</em>, the cones fundamentals are used, and for <em>RGB</em>, an RGB color matching function. The data are from the <a href="http://www.cvrl.org">Colour &amp; Vision database from the University College of London</a>.
+Concerning the <em>HDR space</em> this is the same color matching function but the images are saved as PFM images. This file format allow to work with images that are not rescaled. Yet, this is mainly used because an algorithm (private) requires PFM as input.</p>
+
+<h3>Shape</h3>
+
+<p>Currently there is only one shape available, this is the one from <a href="http://www.mccannimaging.com/Retinex/Publications_files/77LandSciAm.pdf">Land and McCann's experiment</a>.
+You could build another shape (with the same number of areas), following the model of the existing one (data/shape/<em>Land</em>shape.mat, modify the italic part).</p>
+
+<h3>Illumination</h3>
+
+<p>trying to emulate Land's illuminations, 5 attempts are available:</p>
+
+<ul>
+<li>To have best RGB white</li>
+<li>Land’s XYZ</li>
+<li>All Land’s illuminants powerness</li>
+<li>One of Land’s illuminants powerness</li>
+<li>D65 values</li>
+</ul>
+
+<h2>Outputs</h2>
+
+<p>The output images would be stored in the <strong>images/</strong> folder, at the same level as mondrian_factory/.</p>
+
+<p><code>
+.. <br />
+├── images <br />
+│   ├── HDR <br />
+│   │   ├── solution1 <br />
+│   │   │   ├── blueexp_s1_HDR.pfm <br />
+│   │   │   ├── blueexp_s1_HDR_percepted.pfm <br />
+│   │   │   ├── grayexp_s1_HDR.pfm <br />
+│   │   │   ├── grayexp_s1_HDR_percepted.pfm <br />
+│   │   │   ├── greenexp_s1_HDR.pfm <br />
+│   │   │   ├── greenexp_s1_HDR_percepted.pfm <br />
+│   │   │   ├── redexp_s1_HDR.pfm <br />
+│   │   │   ├── redexp_s1_HDR_percepted.pfm <br />
+│   │   │   ├── yellowexp_s1_HDR.pfm <br />
+│   │   │   └── yellowexp_s1_HDR_percepted.pfm <br />
+│   │   ├── solution2 <br />
+│   │   ├── ... <br />
+│   ├── LMS <br />
+│   └── RGB <br />
+├── mondrian_factory <br />
+└── personalized_tools
+</code></p>
+
+<p>For each experiment (blue, red,...), there is a experimental and a perceptual version, according to <a href="http://www.mcimg.us/Color/Color_Mondrians_files/76MMT%20VisRes.pdf">McCann's paper</a>.
+The two versions are built in the following way:</p>
+
+<ul>
+<li>experimental: <strong>actual</strong> color labels &amp; <strong>experimental</strong> illumination</li>
+<li>perceptual: <strong>perceptual</strong> color labels &amp; <strong>white</strong> illumination</li>
+</ul>
+
+<p>the color labels and illuminations, are from McCann's paper.</p>
+
+<h2>Coding design</h2>
+
+<p>This is Matlab code in an object-oriented fashion. See the UML class diagram below.</p>
+
+<p><img src="doc/factory_classes.png" alt="UML Class Diagram" title="" /></p>
