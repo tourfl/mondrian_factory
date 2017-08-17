@@ -59,11 +59,11 @@ For more theoretical explanations, see the experimental report. This is only abo
 
 ### Space
 Mainly refers to color space. For _LMS_, the cones fundamentals are used, and for _RGB_, an RGB color matching function. The data are from the [Colour & Vision database from the University College of London](http://www.cvrl.org).
-Concerning the _HDR space_ this is the same color matching function but the images are saved as PFM images. This file format allow to work with images that are not rescaled. Yet, this is mainly used because an algorithm (private) requires PFM as input.
+Concerning the _HDR space_ this is the same color matching function as RGB but the images are saved as PFM images. This file format allow to work with RGB values that are out of the [0 1] range. Yet, this is mainly used because an algorithm (private) requires PFM as input.
 
 ### Shape
 Currently there is only one shape available, this is the one from [Land and McCann's experiment](http://www.mccannimaging.com/Retinex/Publications_files/77LandSciAm.pdf).
-You could build another shape (with the same number of areas), following the model of the existing one (data/shape/_Land_shape.mat, modify the italic part).
+You could build another shape (with the same number of areas), following the model of the existing one (data/shape/*Land*shape.mat, modify the italic part).
 
 ### Illumination
 trying to emulate Land's illuminations, 5 attempts are available:
@@ -101,7 +101,7 @@ The output images would be stored in the **images/** folder, at the same level a
 └── personalized_tools  
 ```
 
-For each experiment (blue, red,...), there is a experimental and a perceptual version, according to [McCann's paper](http://www.mcimg.us/Color/Color_Mondrians_files/76MMT%20VisRes.pdf).
+For each experiment (blue, red,...), there is an experimental and a perceptual version, according to [McCann's paper](http://www.mcimg.us/Color/Color_Mondrians_files/76MMT%20VisRes.pdf).
 The two versions are built in the following way:
 
 - experimental: **actual** color labels & **experimental** illumination
