@@ -42,6 +42,8 @@ All you need to modify is the **main.m** file. The parameters are the following:
 
 The output images are stored at **../images/** (same level as mondrian_factory/).
 
+![Mondrian](doc/mondrian.png)
+
 # Explanations
 
 For more theoretical explanations, see the experimental report. This is only about how the code is working.
@@ -73,6 +75,9 @@ trying to emulate Land's illuminations, 5 attempts are available:
 - All Land’s illuminants powerness
 - One of Land’s illuminants powerness
 - D65 values
+
+### Experiments
+According to [Land's paper](http://www.mccannimaging.com/Retinex/Publications_files/77LandSciAm.pdf), there are 5 experiments: gray, red, green, blue, yellow. Those correspond to the actual color that is rendered as gray thanks to the illumination.
 
 ## Outputs
 
